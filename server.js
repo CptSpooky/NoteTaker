@@ -8,10 +8,7 @@ const PORT = 3001;
 
 //Note array
 let noteArray = JSON.parse(fs.readFileSync(`${__dirname}/db/db.json`));
-
-//Create IDs Function
-let c = 0;
-const makeID = noteArray.forEach( i => i.id = c++);
+console.log(noteArray);
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -35,29 +32,27 @@ app.get("/notes", function(req, res) {
 // Reads db.json and returns all saved notes as JSON
 app.get("/api/notes", function(req, res) {
     try {
-        let data = fs.readFileSync(`${__dirname}/db/db.json`);
-        res.end(data);
+        res.end(JSON.stringify(noteArray));
     } catch (err) {
         console.log(err);
         res.end(err);
     }    
 });
 
-app.delete("/api/notes:id", function(req, res) {
+app.delete("/api/notes/:id", function(req, res) {
     const notesID = req.params.id;
-    makeID();
-    noteArray.splice(notesID, 1);
     
-    try {
-        let data = fs.readFileSync(`${__dirname}/db/db.json`);
-        res.end(data);
-    } catch (err) {
-        console.log(err);
-        res.end(err);
-    }    
+    noteArray.splice(notesID, 1);
+    console.log(noteArray);
+    fs.writeFileSync(path.resolve(`${__dirname}/db/db.json`), JSON.stringify(noteArray));
+ 
+    // We then display the JSON to the users
+    res.status(200).json(noteArray);
+    console.log("note deleted successfully");
+    
 });
 
-//POST which receives a new note to save on the request body, adds it to the `db.json` file, and then returns new note to the clien
+//POST which receives a new note to save on the request body, adds it to the `db.json` file, and then returns new note to the client
 app.post("/api/notes", function(req, res) {
     // our body parsing middleware
     let newNote = req.body;

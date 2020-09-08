@@ -26,6 +26,7 @@ const saveNote = (note) => {
 
 // A function for deleting a note from the db
 const deleteNote = (id) => {
+  console.log(id);
   return $.ajax({
     url: "api/notes/" + id,
     method: "DELETE",
@@ -74,6 +75,7 @@ const handleNoteDelete = function (event) {
   }
 
   deleteNote(note.id).then(() => {
+    console.log("testing");
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -104,6 +106,8 @@ const handleRenderSaveBtn = function () {
 // Render's the list of note titles
 const renderNoteList = (notes) => {
   notes = JSON.parse(notes);
+  let c = 0;
+  notes.forEach(i => i.id = c++);
   $noteList.empty();
   console.log(notes);
   const noteListItems = [];
