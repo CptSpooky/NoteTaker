@@ -57,8 +57,6 @@ app.post("/api/notes", function(req, res) {
     // our body parsing middleware
     let newNote = req.body;
   
-    console.log(newNote);
-  
     // We then add the data the user sent to the db
     noteArray.push(newNote);
 
