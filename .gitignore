@@ -1,0 +1,8 @@
+node_modules/
+._server.js
+._README.md
+/public/._index.html
+/public/._notes.html
+/public/assets/css/._styles.css
+/public/assets/js/._index.js
+/db/._db.json
